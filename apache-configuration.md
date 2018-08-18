@@ -78,6 +78,18 @@
                </Location>
                
 
+   3. **_Proxy_** || **_ProxyMatch_**:
+      a. The <Proxy> and <ProxyMatch> containers apply enclosed configuration directives only to sites accessed through mod_proxy's proxy server that match the specified URL.
+      b. For example, the following configuration will allow only a subset of clients to access the www.example.com website using the proxy server:
+            
+               <Proxy "http://www.example.com/*">
+                     Require host yournetwork.example.com
+               </Proxy>
+               
+               <Location "/mirror/foo/">
+                     ProxyPass "http://backend.example.com/"
+               </Location>
+               
 **Boolean expressions**:
    1. **_If_**:
       a. The <If> directive change the configuration depending on a condition which can be expressed by a boolean expression. For example, the following configuration denies access if the HTTP Referer header does not start with "http://www.example.com/".
