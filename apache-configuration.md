@@ -36,3 +36,53 @@
   4. we can "!" symbol to evalutes the above directives on negative condition.
   
   
+**Filesystem Containers**
+
+   1. **_Directory_**:
+      a. Directives enclosed in a <Directory> section apply to the named filesystem directory and all subdirectories of that directory (as well as the files in those directories).
+      b. we can also user regex to find the filesystem directory.
+   
+               <Directory "/var/web/dir1">
+                   Options +Indexes
+               </Directory>
+               
+   2. **_Files_**:
+      a. Directives enclosed in a <Files> section apply to any file with the specified name, regardless of what directory it lies in.
+               
+               <Files "private.html">
+                     Require all denied
+               </Files>
+               
+               
+   3. we can even combine Directory and Files to achieve more useful results.
+   
+               <Directory "/var/web/dir1">
+                     <Files "private.html">
+                           Require all denied
+                     </Files>
+               </Directory>
+               
+**Webspace Containers**:-
+   1. **_LocationMatch_**:
+      a. it allows perl-compatible regular expressions to be used in choosing the matches.
+      
+            <LocationMatch "^/private">
+                  Require all denied
+            </LocationMatch>
+            
+   2. **_Location_**:
+      a. The <Location> directive need not have anything to do with the filesystem. For example, the following example shows how to map a particular URL to an internal Apache HTTP Server handler provided by mod_status. No file called server-status needs to exist in the filesystem.
+   
+               <Location "/server-status">
+                     SetHandler server-status
+               </Location>
+               
+
+**Boolean expressions**:
+   1. **_If_**:
+      a. The <If> directive change the configuration depending on a condition which can be expressed by a boolean expression. For example, the following configuration denies access if the HTTP Referer header does not start with "http://www.example.com/".
+   
+                  <If "!(%{HTTP_REFERER} -strmatch 'http://www.example.com/*')">
+                         Require all denied
+                  </If>
+   
